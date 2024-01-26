@@ -1,0 +1,98 @@
+*	text=auto
+
+# Code
+*.bat text encoding=cp932 diff=sjis eol=crlf
+*.cmd text encoding=cp932 diff=sjis eol=crlf
+*.cs text encoding=utf8 diff=csharp eol=crlf
+*.cginc text encoding=utf8 eol=crlf
+*.shader text encoding=utf8 eol=crlf
+*.ps1 text encoding=utf8 eol=crlf
+*.js text encoding=utf8 eol=lf
+*.ts text encoding=utf8 eol=lf
+
+# Text
+*.txt text encoding=utf8 eol=lf
+*.md text encoding=utf8 eol=lf
+*.xml text encoding=utf8 eol=lf
+*.json text encoding=utf8 eol=lf
+
+#Unity
+*.mat text encoding=utf8 merge=unityyamlmerge eol=lf
+*.anim text encoding=utf8 merge=unityyamlmerge eol=lf
+*.unity text encoding=utf8 merge=unityyamlmerge eol=lf
+*.prefab text encoding=utf8 merge=unityyamlmerge eol=lf
+*.physicsMaterial2D text encoding=utf8 merge=unityyamlmerge eol=lf
+*.physicMaterial text encoding=utf8 merge=unityyamlmerge eol=lf
+*.meta text encoding=utf8 merge=unityyamlmerge eol=lf
+*.controller text encoding=utf8 merge=unityyamlmerge eol=lf
+*[tT]errain.asset -text
+*[nN]av[mM]esh.asset -text
+*SDF.asset -text
+LightingData.asset -text
+*.buildconfiguration text encoding=utf8 eol=lf
+*.scenetemplate -text
+
+# Collapse Unity-generated files on GitHub
+*.asset linguist-generated
+*.mat linguist-generated
+*.meta linguist-generated
+*.prefab linguist-generated
+*.unity linguist-generated
+
+## git-lfs ##
+
+#Image
+*.jpg -text
+*.jpeg -text
+*.png -text
+*.gif -text
+*.bmp -text
+*.tif -text
+*.tiff -text
+*.psd -text
+*.ai -text
+
+#Audio
+*.mp3 -text
+*.wav -text
+*.ogg -text
+
+#Video
+*.mp4 -text
+*.mov -text
+
+#3D Object
+*.FBX -text
+*.fbx -text
+*.blend -text
+*.obj -text
+
+#UnrealEngine
+*.umap -text
+
+#CRIWareADX2
+*.acb -text
+*.acf -text
+
+#ETC
+*.a -text
+*.exr -text
+*.tga -text
+*.pdf -text
+*.zip -text
+*.dll -text
+*.unitypackage -text
+*.aif -text
+*.ttf -text
+*.otf -text
+*.rns -text
+*.reason -text
+*.lxo -text
+*.so -text
+*.jar -text
+*.aar -text
+*.acf -text
+*.acb -text
+*.awb -text
+*.dat -text
+*.pdb -text
