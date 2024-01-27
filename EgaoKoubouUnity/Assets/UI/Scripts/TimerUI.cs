@@ -7,21 +7,26 @@ public class TimerUI : MonoBehaviour
     public float timeLimit = 60.0f;
     float currentTime;
 
-
     private TimerImage timerImage;
+    private Needle needle;
 
     // Start is called before the first frame update
     void Start()
     {
         timerImage = GetComponentInChildren<TimerImage>();
-
+        needle = GetComponentInChildren<Needle>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        float time  = CountDownTimer();
+        float time = CountDownTimer();
         timerImage.SetAmount(1.0f - time);
+
+        if (currentTime < timeLimit)
+        {
+            needle.NeedleRotate(360 / -timeLimit * Time.deltaTime);
+        }
     }
 
     float CountDownTimer()
@@ -35,4 +40,5 @@ public class TimerUI : MonoBehaviour
         //Debug.Log(time);
         return time;
     }
+
 }

@@ -10,7 +10,6 @@ public class TimerImage : MonoBehaviour
     private void Start()
     {
         image = GetComponent<Image>();
-       
     }
 
     public void SetAmount(float inValue)
