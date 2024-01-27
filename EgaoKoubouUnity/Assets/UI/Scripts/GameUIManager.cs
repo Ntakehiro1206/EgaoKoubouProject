@@ -1,10 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameUIManager : MonoBehaviour
 {
     private CounselingSheetUI sheetUI;
+    private EmotionWindowUI emotionUI;
 
     private string[] locRequstNames = new string[]
     {
@@ -17,8 +19,7 @@ public class GameUIManager : MonoBehaviour
     void Start()
     {
         sheetUI = GetComponentInChildren<CounselingSheetUI>();
-
-
+        emotionUI = GetComponentInChildren<EmotionWindowUI>();
     }
 
     // Update is called once per frame
@@ -48,6 +49,23 @@ public class GameUIManager : MonoBehaviour
         if (Input.GetMouseButtonDown(1))
         {
             sheetUI.DeletionItem();
+        }
+
+        if (Input.GetMouseButtonDown(1))
+        {
+
+            if (Input.GetKey(KeyCode.A))
+            {
+                emotionUI.SetEmotion(0);
+            }
+            if (Input.GetKey(KeyCode.S))
+            {
+                emotionUI.SetEmotion(1);
+            }
+            if (Input.GetKey(KeyCode.D))
+            {
+                emotionUI.SetEmotion(2);
+            }
         }
 
         if (Input.GetKeyDown(KeyCode.Space))
