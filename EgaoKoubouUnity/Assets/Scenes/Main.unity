@@ -900,6 +900,7 @@ GameObject:
   - component: {fileID: 1075831572}
   - component: {fileID: 1075831574}
   - component: {fileID: 1075831573}
+  - component: {fileID: 1075831575}
   m_Layer: 0
   m_Name: mouth
   m_TagString: Untagged
@@ -1186,6 +1187,19 @@ LineRenderer:
   m_UseWorldSpace: 1
   m_Loop: 0
   m_ApplyActiveColorSpace: 1
+--- !u!114 &1075831575
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1075831570}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1345528c828bb344a8469ebe902faf94, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  splineContainer: {fileID: 1075831572}
 --- !u!1 &1594945235
 GameObject:
   m_ObjectHideFlags: 0
