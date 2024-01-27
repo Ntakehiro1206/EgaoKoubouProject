@@ -9,7 +9,9 @@ using UnityEngine;
 namespace Face
 {
     public enum EyeType { Upswept, Droopy }
-    public enum PartType { Eye, Eyebrow, Nose, Mouse, Hair }
+    public enum PartType { EyeL, EyeR, EyebrowL, EyebrowR, Nose, Mouse, Hair }
+
+
 
     [System.Serializable]
     public class EyeData
@@ -22,7 +24,7 @@ namespace Face
         public class Part
         {
             public Material _material = default;
-            public Vector2  _position = Vector2.zero;
+            public Vector2[] _positions = default;
         }
     }
 
@@ -30,12 +32,12 @@ namespace Face
     public class NoseData
     {
         public Material _material = default;
-        public Vector2  _position = Vector2.zero;
+        public Vector2[] _positions = default;
     }
     [System.Serializable]
     public class MouseData
     {
-        public Vector2  _position = Vector2.zero;
+        public Vector2[]  _positions = default;
     }
     [System.Serializable]
     public class HairData
@@ -60,6 +62,7 @@ namespace Cosmetic
     {
         public string        _comment      = default;
         public Face.PartType _facePartType = default;
+        public float[]       _angles       = default;
     }
 
     [System.Serializable]
@@ -117,6 +120,9 @@ public class FaceDatatable : ScriptableObject
     private MouseData[] _mouseList = default;
     [SerializeField]
     private HairData[]  _hairList = default;
+    [SerializeField]
+    private FacePartNameData[] _partNameList = default;
+
 
     [Header("整形情報")]
     [SerializeField]
@@ -159,6 +165,11 @@ public class FaceDatatable : ScriptableObject
         return resultFace;
     }
 
+    public SurgeryData GetSurgeryData(int inIndex)
+    {
+        return _surgeryList[inIndex];
+    }
+
     public SurgeryGroupData GetSurgeryGroupData(int inVisitorsCount)
     {
         var groups = _surgeryGroupList.Where(value => value.InRange(inVisitorsCount)).ToArray();
@@ -183,7 +194,26 @@ public class FaceDatatable : ScriptableObject
         return data;
     }
 
+    public bool TryFacePartType(string inName, out PartType outPart)
+    {
+        var data = _partNameList.FirstOrDefault(value => value._name.ToLower() == inName.ToLower());
+        if (data != null)
+        {
+            outPart = data._type;
+            return true;
+        }
+        outPart = default;
+        return false;
+    }
 
+
+
+    [System.Serializable]
+    private class FacePartNameData
+    {
+        public PartType _type = default;
+        public string   _name = default;
+    }
 
 }
 

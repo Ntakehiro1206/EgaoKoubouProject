@@ -58,10 +58,15 @@ public class GameMainUIManager : MonoBehaviour, IGameUI
 
     public void SetMainVisible(bool inVisible)
     {
-        _counseling.gameObject.SetActive(inVisible);
+        //_counseling.gameObject.SetActive(inVisible);
         _money.gameObject.SetActive(inVisible);
     }
 
+    public void SetPatientStatus(IPatientStatus inStatus)
+    {
+        _counseling.SetPatientStatus(inStatus);
+        _money.SetPatientStatus(inStatus);
+    }
 
 
     public void RegisterEmotion(IEmotionManager inEmotion)

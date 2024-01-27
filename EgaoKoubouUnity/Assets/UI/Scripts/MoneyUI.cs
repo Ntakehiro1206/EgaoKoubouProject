@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEditor;
+using UnityEditor.UIElements;
 using UnityEngine;
 using static UnityEditor.Progress;
 
@@ -12,7 +14,8 @@ public class MoneyUI : MonoBehaviour
     [SerializeField]
     public int AmountMoney;
 
-
+    private IPatientStatus _status = default;
+    private int _cacheMoney = 0;
 
     private List<MoneyImageUI> moneyList = new List<MoneyImageUI>();
 
@@ -31,6 +34,14 @@ public class MoneyUI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (_status == null)
+            return;
+
+        if (_cacheMoney != _status.myCurrentMoney)
+        {
+            _cacheMoney = _status.myCurrentMoney;
+            UseMoney();
+        }
 
     }
 
@@ -46,13 +57,38 @@ public class MoneyUI : MonoBehaviour
 // 
 //     }
 
-    public void UseMoney(int money)
+    public void UseMoney(int money = 0)
     {
-        if (moneyList.Count > 0)
+        foreach (var item in moneyList)
         {
-            var obj = moneyList[0];
-            Destroy(obj.gameObject);
-            moneyList.Remove(obj);
+            if (item.gameObject.activeSelf)
+            {
+                item.gameObject.SetActive(false);
+                SoundSystem.Instance.PlaySfx(SfxNameType.Money2);
+                break;
+            }
+        }
+    }
+
+    public void SetVisibleAll(bool inVisible)
+    {
+        foreach(var item in moneyList)
+        {
+            item.gameObject.SetActive(inVisible);
+        }
+    }
+
+    public void SetPatientStatus(IPatientStatus inStatus)
+    {
+        SetVisibleAll(false);
+
+        _status = inStatus;
+        _cacheMoney = inStatus.myCurrentMoney;
+        int count = inStatus.myMaxMoney / 10000;
+
+        for ( int i = 0; i < moneyList.Count; i++)
+        {
+            moneyList[i].gameObject.SetActive(i >= count);
         }
     }
 

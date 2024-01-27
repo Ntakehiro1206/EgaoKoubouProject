@@ -1,6 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.Splines;
 using UnityEngine.Windows;
 
 public class PatientSettings : MonoBehaviour
@@ -52,22 +55,56 @@ public class PatientSettings : MonoBehaviour
 
     public void Set(PatientData inData)
     {
-        var map = new Dictionary<string, MeshRenderer>();
-        foreach(var render in _root.GetComponentsInChildren<MeshRenderer>(true))
         {
-            map.Add(render.name, render);
+            var map = new Dictionary<string, MeshRenderer>();
+            foreach (var render in _root.GetComponentsInChildren<MeshRenderer>(true))
+            {
+                map.Add(render.name, render);
+            }
+
+            map["faceOutline"].sharedMaterial = inData._basic._faceBG;
+            // map["body"].sharedMaterial = null;
+            map["eye_L1"].sharedMaterial = inData._face._eye._left._material;
+            map["eye_R1"].sharedMaterial = inData._face._eye._right._material;
+            map["eyebrow_L1"].sharedMaterial = inData._face._eyebrow._left._material;
+            map["eyebrow_R1"].sharedMaterial = inData._face._eyebrow._right._material;
+            //map["mouth"].sharedMaterial = inData._face._mouse.;
+            // map["nose"].sharedMaterial = null;
+            map["hair"].sharedMaterial = inData._face._hair._material;
         }
 
-        map["faceOutline"].sharedMaterial = inData._basic._faceBG;
-        // map["body"].sharedMaterial = null;
-        map["eye_L1"].sharedMaterial = inData._face._eye._left._material;
-        map["eye_R1"].sharedMaterial = inData._face._eye._right._material;
-        map["eyebrow_L1"].sharedMaterial = inData._face._eyebrow._left._material;
-        map["eyebrow_R1"].sharedMaterial = inData._face._eyebrow._right._material;
-        // map["mouth"].sharedMaterial = inData._face._mouse.;
-        // map["nose"].sharedMaterial = null;
-        map["hair"].sharedMaterial = inData._face._hair._material;
-        
+        {
+            var map = new Dictionary<string, SplineContainer>();
+            foreach (var component in _root.GetComponentsInChildren<SplineContainer>(true))
+            {
+                map.Add(component.name, component);
+            }
+
+            //             map["faceOutline"].sharedMaterial = inData._basic._faceBG;
+            //             // map["body"].sharedMaterial = null;
+            //             map["eye_L1"].sharedMaterial = inData._face._eye._left._material;
+            //             map["eye_R1"].sharedMaterial = inData._face._eye._right._material;
+            //             map["eyebrow_L1"].sharedMaterial = inData._face._eyebrow._left._material;
+            //             map["eyebrow_R1"].sharedMaterial = inData._face._eyebrow._right._material;
+
+            // map["nose"].sharedMaterial = null;
+            // map["hair"].sharedMaterial = inData._face._hair._material;
+
+            var knots = map["mouth"].Spline.Knots.ToArray();
+            for(int i = 0; i < knots.Length; ++i)
+            {
+                if (inData._face._mouse._positions.Length > i)
+                {
+                    Vector2 v = inData._face._mouse._positions[i];
+                    knots[i].Position = new float3(v.x, v.y, 0.0f);
+                }
+            }
+            map["mouth"].Spline.Knots = knots;
+
+
+
+
+        }
 
 
     }

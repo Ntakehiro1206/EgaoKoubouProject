@@ -3,28 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using Unity.Mathematics;
+using Unity.VisualScripting;
+using UnityEditor.Rendering;
 using UnityEngine;
 using UnityEngine.Splines;
 
 
-public interface IEmotionManager
-{
-
-}
-
-public interface IPatientStatus
-{
-    string myId => "";
-    int myMoney => 0;
-    IPatientRequestStatus[] myStatuses => new IPatientRequestStatus[0];
-}
-
-public interface IPatientRequestStatus
-{
-    int myId => 0;
-    EmotionDatatable.ResuestData myData => null;
-    bool myResult => false;
-}
 
 
 public class EmotionManager : MonoBehaviour, IEmotionManager
@@ -32,7 +16,11 @@ public class EmotionManager : MonoBehaviour, IEmotionManager
     [SerializeField]
     private GameObject _root = null;
     [SerializeField]
-    private EmotionDatatable _datatable = null;
+    private FaceDatatable _datatable = null;
+    [SerializeField]
+    private int _money = 10000;
+
+    private PatientStatus _patientStatus;
 
     private List<FaceData> _faces = new List<FaceData>();
 
@@ -64,13 +52,63 @@ public class EmotionManager : MonoBehaviour, IEmotionManager
     {
         DrawDebugString(inObj, inPositions);
 
+        if (_datatable.TryFacePartType(inObj.name, out Face.PartType partType))
+        {
+            Check(partType, inPositions);
+        }
+
         SoundSystem.Instance.StopSfx(SfxNameType.DrillLoop);
         SoundSystem.Instance.PlaySfx(SfxNameType.DrillEnd);
+
+        _patientStatus.myCurrentMoney = _patientStatus.myCurrentMoney - _money;
     }
 
     private void OnStartedFace(GameObject inObj)
     {
         SoundSystem.Instance.PlaySfx(SfxNameType.DrillLoop);
+    }
+
+    private void Check(Face.PartType inType, float3[] inPositions)
+    {
+        if (inType != Face.PartType.Mouse)
+            return;
+        if (_patientStatus == null)
+            return;
+
+        foreach(var req in _patientStatus._requests)
+        {
+            var angles = req.mySource._angles;
+            if (angles == null || angles.Length < 2)
+                continue;
+
+            Vector2[] v = new Vector2[3];
+            v[0] = new Vector2(inPositions[0].x, inPositions[0].y);
+            v[1] = new Vector2(inPositions[1].x, inPositions[1].y);
+            v[2] = new Vector2(inPositions[2].x, inPositions[2].y);
+
+            Vector2 v01 = (v[0] - v[1]).normalized;
+            Vector2 v02 = (v[2] - v[1]).normalized;
+
+            float dot01 = Vector2.Dot(v01, Vector2.up);
+            float dot02 = Vector2.Dot(v02, Vector2.up);
+            float angle01 = Mathf.Acos(dot01) * Mathf.Rad2Deg;
+            float angle02 = Mathf.Acos(dot02) * Mathf.Rad2Deg;
+
+            if (angle01 >= angles[0] && angle01 <= angles[1]
+                && angle02 >= angles[0] && angle02 <= angles[1])
+            {
+                req.myResult = true;
+            }
+            else
+            {
+                req.myResult = false;
+            }
+
+            Debug.Log($"{angle01}, {angle02}");
+        }
+
+
+
     }
 
     private void DrawDebugString(GameObject inObj, float3[] inPositions)
@@ -101,6 +139,11 @@ public class EmotionManager : MonoBehaviour, IEmotionManager
 #endif // UNITY_EDITOR
     }
 
+    public void SetPatientStatus(PatientStatus inStatus)
+    {
+        _patientStatus = inStatus;
+    }
+
     [System.Serializable]
     private class FaceData
     {
@@ -115,14 +158,4 @@ public class EmotionManager : MonoBehaviour, IEmotionManager
         }
     }
 
-    private class PatientStatus : IPatientStatus
-    {
-        public int myMoney { get; private set; }
-
-        public PatientStatus(int inMoney)
-        {
-
-        }
-
-    }
 }

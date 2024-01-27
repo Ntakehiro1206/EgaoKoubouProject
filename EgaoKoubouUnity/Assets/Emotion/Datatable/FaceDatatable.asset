@@ -16,62 +16,103 @@ MonoBehaviour:
   - _eyeType: 0
     _left:
       _material: {fileID: 2100000, guid: a620972fc9f65a84ca0d3a78c3b6c691, type: 2}
-      _position: {x: 0, y: 0}
+      _positions: []
     _right:
       _material: {fileID: 2100000, guid: 03988ed51f05fb941a6ceb152e1b0f8a, type: 2}
-      _position: {x: 0, y: 0}
+      _positions: []
   - _eyeType: 0
     _left:
       _material: {fileID: 2100000, guid: 91aa21b6f98e47a4eaf3681c7edefa11, type: 2}
-      _position: {x: 0, y: 0}
+      _positions: []
     _right:
       _material: {fileID: 2100000, guid: 03988ed51f05fb941a6ceb152e1b0f8a, type: 2}
-      _position: {x: 0, y: 0}
+      _positions: []
   - _eyeType: 0
     _left:
       _material: {fileID: 2100000, guid: a620972fc9f65a84ca0d3a78c3b6c691, type: 2}
-      _position: {x: 0, y: 0}
+      _positions: []
     _right:
       _material: {fileID: 2100000, guid: 9701f868d237dc2478bf113baa870172, type: 2}
-      _position: {x: 0, y: 0}
+      _positions: []
   _eyebrowList:
   - _eyeType: 0
     _left:
       _material: {fileID: 2100000, guid: 550991ea0419c2b4eb708ba2341c9dc4, type: 2}
-      _position: {x: 0, y: 0}
+      _positions: []
     _right:
       _material: {fileID: 2100000, guid: 857199722119bd745aac50689ca0762b, type: 2}
-      _position: {x: 0, y: 0}
+      _positions: []
   - _eyeType: 0
     _left:
       _material: {fileID: 2100000, guid: b60b30f8a97bb3b49a2c4468be2eeeea, type: 2}
-      _position: {x: 0, y: 0}
+      _positions: []
     _right:
       _material: {fileID: 2100000, guid: 857199722119bd745aac50689ca0762b, type: 2}
-      _position: {x: 0, y: 0}
+      _positions: []
   - _eyeType: 0
     _left:
       _material: {fileID: 2100000, guid: 550991ea0419c2b4eb708ba2341c9dc4, type: 2}
-      _position: {x: 0, y: 0}
+      _positions: []
     _right:
       _material: {fileID: 2100000, guid: 0352d15e217dd4d408e1f10ab1e4d9b2, type: 2}
-      _position: {x: 0, y: 0}
+      _positions: []
   _noseList:
   - _material: {fileID: 0}
-    _position: {x: 0, y: 0}
+    _positions: []
   _mouseList:
-  - _position: {x: 0, y: 0}
+  - _positions:
+    - {x: -0.1691755, y: 0.1850002}
+    - {x: 1.036824, y: 0.00628376}
+    - {x: 2.310824, y: 0.1550002}
+  - _positions:
+    - {x: -0.1691755, y: 0.1850002}
+    - {x: 1.036824, y: 0.43}
+    - {x: 2.310824, y: 0.1550002}
+  - _positions:
+    - {x: -0.89, y: 0.1850002}
+    - {x: 1.036824, y: 0.1}
+    - {x: 3.19, y: 0.1550002}
   _hairList:
   - _material: {fileID: 2100000, guid: b6d8e943528a4484382638a4eeea07f0, type: 2}
   - _material: {fileID: 2100000, guid: cb1ea06153b44ab49a4b9f45f3492ce7, type: 2}
   - _material: {fileID: 2100000, guid: 6b9d0e38648fb164892ea8b0fbd0c7a9, type: 2}
+  _partNameList:
+  - _type: 0
+    _name: eye_L1
+  - _type: 1
+    _name: eye_R1
+  - _type: 2
+    _name: eyebrow_L1
+  - _type: 3
+    _name: eyebrow_R1
+  - _type: 4
+    _name: nose
+  - _type: 5
+    _name: mouth
+  - _type: 6
+    _name: hair
   _surgeryList:
-  - _comment: 
-    _facePartType: 0
+  - _comment: "\u4E0D\u6A5F\u5ACC\u306B\u898B\u3089\u308C\u308B"
+    _facePartType: 5
+    _angles:
+    - 50
+    - 70
+  - _comment: "\u30D8\u30E9\u30D8\u30E9\u3057\u3066\u306A\u3044"
+    _facePartType: 5
+    _angles:
+    - 100
+    - 130
   _surgeryGroupList:
-  - _surgerIndexList: 
+  - _surgerIndexList: 00000000
     _difficulty: 
-    _money: 0
+    _money: 100000
+    _specifyEye: 0
+    _specifyEyebrow: 0
+    _eyeType: 0
+    _eyebrowType: 0
+  - _surgerIndexList: 01000000
+    _difficulty: 
+    _money: 70000
     _specifyEye: 0
     _specifyEyebrow: 0
     _eyeType: 0
