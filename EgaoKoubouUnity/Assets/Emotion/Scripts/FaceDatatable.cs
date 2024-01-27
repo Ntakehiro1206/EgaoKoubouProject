@@ -41,7 +41,6 @@ namespace Face
     public class HairData
     {
         public Material _material = default;
-        public Color    _color    = default;
     }
 
     public class FaceGroupData
@@ -70,6 +69,11 @@ namespace Cosmetic
         public int[] _difficulty      = default;
         public int   _money           = 0;
 
+        public bool _specifyEye;
+        public bool _specifyEyebrow;
+        public EyeType _eyeType;
+        public EyeType _eyebrowType;
+
         public bool InRange(int inIndex)
         {
             if (_difficulty.Length == 0)
@@ -79,12 +83,25 @@ namespace Cosmetic
             return inIndex >= _difficulty[0] && inIndex <= _difficulty[1];
         }
     }
-
-
-
-
-
 }
+
+public enum PatientType { Human, Cat, }
+
+[System.Serializable]
+public class PatientBasicData
+{
+    public PatientType _patientType = default;
+    public Material _faceBG = default;
+}
+
+public class PatientData
+{
+    public PatientBasicData   _basic = default;
+    public Face.FaceGroupData _face  = default;
+}
+
+
+
 
 [CreateAssetMenu(menuName = "ScriptableObject/FaceDatatable", fileName = "FaceDatatable")]
 public class FaceDatatable : ScriptableObject
@@ -107,16 +124,20 @@ public class FaceDatatable : ScriptableObject
     [SerializeField]
     private SurgeryGroupData[] _surgeryGroupList = default;
 
-    public FaceGroupData GetFaceGroupData(FaceGroupCondition inCondition)
+    [Header("患者情報")]
+    [SerializeField]
+    private PatientBasicData[] _patiets = default;
+
+    public FaceGroupData GetFaceGroupData(Cosmetic.SurgeryGroupData inSurgery)
     {
         FaceGroupData resultFace = new FaceGroupData();
 
         EyeData[] eyeList = _eyeList;
-        if (inCondition._specifyEye)
-            eyeList = eyeList.Where(value => value._eyeType == inCondition._eyeType).ToArray();
+        if (inSurgery._specifyEye)
+            eyeList = eyeList.Where(value => value._eyeType == inSurgery._eyeType).ToArray();
         EyeData[] eyebrowList = _eyebrowList;
-        if (inCondition._specifyEyebrow)
-            eyebrowList = eyebrowList.Where(value => value._eyeType == inCondition._eyebrowType).ToArray();
+        if (inSurgery._specifyEyebrow)
+            eyebrowList = eyebrowList.Where(value => value._eyeType == inSurgery._eyebrowType).ToArray();
 
         resultFace._eye     = eyeList[0];
         resultFace._eyebrow = eyebrowList[0];
@@ -152,14 +173,16 @@ public class FaceDatatable : ScriptableObject
     }
 
 
-
-    public struct FaceGroupCondition
+    public PatientData GetPatientData(Cosmetic.SurgeryGroupData inSurgery)
     {
-        public bool _specifyEye;
-        public bool _specifyEyebrow;
-        public EyeType _eyeType;
-        public EyeType _eyebrowType;
+        PatientData data = new PatientData();
+
+        data._basic = _patiets[Random.Range(0, _patiets.Length)];
+        data._face  = GetFaceGroupData(inSurgery);
+
+        return data;
     }
+
 
 
 }

@@ -6,6 +6,7 @@ using UnityEngine;
 public enum BgmNameType
 {
     Entrance,
+    Gameplay,
 }
 
 public enum SfxNameType

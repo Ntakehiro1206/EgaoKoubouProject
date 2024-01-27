@@ -12,10 +12,72 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0669b7cfb2c40d14e8acf1f5030f81c8, type: 3}
   m_Name: FaceDatatable
   m_EditorClassIdentifier: 
-  _eyeList: []
-  _eyebrowList: []
-  _noseList: []
-  _mouseList: []
-  _hairList: []
-  _surgeryList: []
-  _surgeryGroupList: []
+  _eyeList:
+  - _eyeType: 0
+    _left:
+      _material: {fileID: 2100000, guid: a620972fc9f65a84ca0d3a78c3b6c691, type: 2}
+      _position: {x: 0, y: 0}
+    _right:
+      _material: {fileID: 2100000, guid: 03988ed51f05fb941a6ceb152e1b0f8a, type: 2}
+      _position: {x: 0, y: 0}
+  - _eyeType: 0
+    _left:
+      _material: {fileID: 2100000, guid: 91aa21b6f98e47a4eaf3681c7edefa11, type: 2}
+      _position: {x: 0, y: 0}
+    _right:
+      _material: {fileID: 2100000, guid: 03988ed51f05fb941a6ceb152e1b0f8a, type: 2}
+      _position: {x: 0, y: 0}
+  - _eyeType: 0
+    _left:
+      _material: {fileID: 2100000, guid: a620972fc9f65a84ca0d3a78c3b6c691, type: 2}
+      _position: {x: 0, y: 0}
+    _right:
+      _material: {fileID: 2100000, guid: 9701f868d237dc2478bf113baa870172, type: 2}
+      _position: {x: 0, y: 0}
+  _eyebrowList:
+  - _eyeType: 0
+    _left:
+      _material: {fileID: 2100000, guid: 550991ea0419c2b4eb708ba2341c9dc4, type: 2}
+      _position: {x: 0, y: 0}
+    _right:
+      _material: {fileID: 2100000, guid: 857199722119bd745aac50689ca0762b, type: 2}
+      _position: {x: 0, y: 0}
+  - _eyeType: 0
+    _left:
+      _material: {fileID: 2100000, guid: b60b30f8a97bb3b49a2c4468be2eeeea, type: 2}
+      _position: {x: 0, y: 0}
+    _right:
+      _material: {fileID: 2100000, guid: 857199722119bd745aac50689ca0762b, type: 2}
+      _position: {x: 0, y: 0}
+  - _eyeType: 0
+    _left:
+      _material: {fileID: 2100000, guid: 550991ea0419c2b4eb708ba2341c9dc4, type: 2}
+      _position: {x: 0, y: 0}
+    _right:
+      _material: {fileID: 2100000, guid: 0352d15e217dd4d408e1f10ab1e4d9b2, type: 2}
+      _position: {x: 0, y: 0}
+  _noseList:
+  - _material: {fileID: 0}
+    _position: {x: 0, y: 0}
+  _mouseList:
+  - _position: {x: 0, y: 0}
+  _hairList:
+  - _material: {fileID: 2100000, guid: b6d8e943528a4484382638a4eeea07f0, type: 2}
+  - _material: {fileID: 2100000, guid: cb1ea06153b44ab49a4b9f45f3492ce7, type: 2}
+  - _material: {fileID: 2100000, guid: 6b9d0e38648fb164892ea8b0fbd0c7a9, type: 2}
+  _surgeryList:
+  - _comment: 
+    _facePartType: 0
+  _surgeryGroupList:
+  - _surgerIndexList: 
+    _difficulty: 
+    _money: 0
+    _specifyEye: 0
+    _specifyEyebrow: 0
+    _eyeType: 0
+    _eyebrowType: 0
+  _patiets:
+  - _patientType: 0
+    _faceBG: {fileID: 2100000, guid: bdc5e612994cd6a4e807155fead167c7, type: 2}
+  - _patientType: 1
+    _faceBG: {fileID: 2100000, guid: bdc5e612994cd6a4e807155fead167c7, type: 2}

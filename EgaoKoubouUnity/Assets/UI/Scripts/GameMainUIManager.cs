@@ -6,6 +6,9 @@ using UnityEngine;
 
 public interface IGameUI
 {
+    void SetMainVisible(bool inVisible) { }
+
+
     void SetPatientStatus(IPatientStatus inStatus) { }
     void RegisterEmotion(IEmotionManager inEmotion) { }
 }
@@ -52,6 +55,14 @@ public class GameMainUIManager : MonoBehaviour, IGameUI
     {
         
     }
+
+    public void SetMainVisible(bool inVisible)
+    {
+        _counseling.gameObject.SetActive(inVisible);
+        _money.gameObject.SetActive(inVisible);
+    }
+
+
 
     public void RegisterEmotion(IEmotionManager inEmotion)
     {
