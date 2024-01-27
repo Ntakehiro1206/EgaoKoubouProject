@@ -68,7 +68,6 @@ public class SplineController : MonoBehaviour
                 {
                     state = State.B;
                     selectedKnotIndex = i;
-                    Debug.Log("NOW DD RUN");
                 }
 
                 break; //foreachを抜ける
