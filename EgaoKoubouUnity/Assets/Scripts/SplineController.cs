@@ -1,7 +1,10 @@
+using JetBrains.Annotations;
 using System.Linq;
 using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.Splines;
+using UnityEngine.Events;
+using System;
 
 public class SplineController : MonoBehaviour
 {
@@ -10,6 +13,12 @@ public class SplineController : MonoBehaviour
         A,
         B
     }
+
+    //// コールバック event
+    //public void MyCallBackMethod(string result)
+    //{
+    //    Debug.Log("処理完了 : " + result);
+    //}
 
     [SerializeField] private SplineContainer splineContainer;
     [SerializeField] private float threshold = 0.8f;
@@ -26,7 +35,7 @@ public class SplineController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        state = State.A;
+        state = State.A;    
     }
 
     // Update is called once per frame
@@ -81,11 +90,19 @@ public class SplineController : MonoBehaviour
 
     }
 
+    public event Action<GameObject, float3[]> CompleteHandler;
+
     private void NowDD() //ドラッグ＆ドロップしてる時の処理
     {
+
         if (!Input.GetMouseButton(0))
         {
             state = State.A;
+
+            Debug.Log("マウスボタン放す処理実行");
+            // コールバック実行
+            CompleteHandler?.Invoke(gameObject, splineContainer.Spline.Knots.Select(value => value.Position).ToArray());
+
             return; 
         }
 
