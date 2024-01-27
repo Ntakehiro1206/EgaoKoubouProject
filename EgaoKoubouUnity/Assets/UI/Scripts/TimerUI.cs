@@ -32,7 +32,7 @@ public class TimerUI : MonoBehaviour
             currentTime += Time.deltaTime;
         }
         float time = currentTime / timeLimit;
-        Debug.Log(time);
+        //Debug.Log(time);
         return time;
     }
 }

@@ -7,6 +7,7 @@ public class GameUIManager : MonoBehaviour
 {
     private CounselingSheetUI sheetUI;
     private EmotionWindowUI emotionUI;
+    private MoneyUI MoneyUI;
 
     private string[] locRequstNames = new string[]
     {
@@ -20,6 +21,7 @@ public class GameUIManager : MonoBehaviour
     {
         sheetUI = GetComponentInChildren<CounselingSheetUI>();
         emotionUI = GetComponentInChildren<EmotionWindowUI>();
+        MoneyUI = GetComponentInChildren<MoneyUI>();
     }
 
     // Update is called once per frame
@@ -27,23 +29,7 @@ public class GameUIManager : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
-            //sheetUI.AddItem("gfh");
-            if (Input.GetKey(KeyCode.A))
-            {
-                sheetUI.AddItem(locRequstNames[0]);
-            }
-            else if (Input.GetKey(KeyCode.S))
-            {
-                sheetUI.AddItem(locRequstNames[1]);
-            }
-            else if (Input.GetKey(KeyCode.D))
-            {
-                sheetUI.AddItem(locRequstNames[2]);
-            }
-            else
-            {
-                sheetUI.AddItem("");
-            }
+            MoneyUI.UseMoney(1);
         }
 
         if (Input.GetMouseButtonDown(1))
@@ -71,6 +57,10 @@ public class GameUIManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space))
         {
             sheetUI.Check(true);
+        }
+
+        if (Input.GetKey(KeyCode.S))
+        {
         }
     }
 }
