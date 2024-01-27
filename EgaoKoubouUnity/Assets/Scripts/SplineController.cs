@@ -52,6 +52,8 @@ public class SplineController : MonoBehaviour
         }
     }
 
+    public event Action<GameObject> OnStartDrag;
+
     private void BeforeDD() //ドラッグ＆ドロップ前の処理
     {
         Vector3 mousePos = Input.mousePosition;
@@ -75,6 +77,10 @@ public class SplineController : MonoBehaviour
 
                 if (isFocus == true && Input.GetMouseButtonDown(0))　//カーソル重なりつつマウスクリックされたとき
                 {
+                    //ドラッグ処理開始時のコールバック
+                    Debug.Log("ドラッグ処理スタート");
+                    OnStartDrag?.Invoke(gameObject);
+
                     state = State.B;
                     selectedKnotIndex = i;
                 }
@@ -114,7 +120,6 @@ public class SplineController : MonoBehaviour
         knots[selectedKnotIndex] = selectedKnot;
 
         splineContainer.Spline.Knots = knots;
-
         knotursor.transform.position = target;
     }
 }
