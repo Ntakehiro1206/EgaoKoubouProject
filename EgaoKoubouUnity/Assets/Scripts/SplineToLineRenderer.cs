@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using Unity.Collections;
 using Unity.Mathematics;
 using UnityEngine;
@@ -49,6 +47,8 @@ public class SplineToLineRenderer : MonoBehaviour
     // スプラインからLineRendererにパスを反映する
     public void Rebuild()
     {
+        Debug.Log("Rebuild");
+
         // テンポラリバッファを確保
         var points = new NativeArray<Vector3>(_segments, Allocator.Temp);
 
