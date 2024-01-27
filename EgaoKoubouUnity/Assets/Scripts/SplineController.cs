@@ -1,44 +1,57 @@
+using System.Linq;
 using Unity.Mathematics;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Splines;
-using static UnityEngine.GraphicsBuffer;
 
 public class SplineController : MonoBehaviour
 {
+    enum State //enum = 列挙子
+    {
+        A,
+        B
+    }
+
     [SerializeField] private SplineContainer splineContainer;
     [SerializeField] private float threshold = 0.8f;
     [SerializeField] private GameObject knotursor;
+    /// <summary>
+    /// 状態
+    /// </summary>
+    private State state;
+    /// <summary>
+    /// 選択されたノットのインデックス
+    /// </summary>
+    private int selectedKnotIndex;
 
     // Start is called before the first frame update
     void Start()
     {
-        if (splineContainer == null) return;
-
-        var spline = splineContainer.Spline;
-
-        spline[0] = new BezierKnot(new float3(0, 0, 0));
-        spline[2] = new BezierKnot(new float3(0.5f, 0, 0));
+        state = State.A;
     }
 
     // Update is called once per frame
     void Update()
     {
-        BeforeDD();
+        if (state == State.A)
+        {
+            BeforeDD();
+        }
 
-        //// todo: knotsの編集
-
-        //splineContainer.Spline.Knots = knots;
+        if (state == State.B)
+        {
+            NowDD();
+        }
     }
 
     private void BeforeDD() //ドラッグ＆ドロップ前の処理
     {
         Vector3 mousePos = Input.mousePosition;
         Vector2 target = Camera.main.ScreenToWorldPoint(mousePos);
-        var knots = splineContainer.Spline.Knots;
+        BezierKnot[] knots = splineContainer.Spline.Knots.ToArray();
 
-        foreach (var knot in knots)
+        for (int i = 0; i < knots.Length; i++)
         {
+            BezierKnot knot = knots[i];
             var worldPos = (Vector2)transform.TransformPoint(knot.Position);
             //knotのワールド座標をぜんなめ取得
 
@@ -53,15 +66,12 @@ public class SplineController : MonoBehaviour
 
                 if (isFocus == true && Input.GetMouseButtonDown(0))　//カーソル重なりつつマウスクリックされたとき
                 {
-                    NowDD();
+                    state = State.B;
+                    selectedKnotIndex = i;
                     Debug.Log("NOW DD RUN");
                 }
-                else if (Input.GetMouseButtonUp(0))
-                {
-                    Debug.Log("NOW DD THE END");
-                }
 
-                break;
+                break; //foreachを抜ける
             }
             else
             {
@@ -69,23 +79,27 @@ public class SplineController : MonoBehaviour
                 GetComponent<LineRenderer>().material.color = Color.white;
             }
         }
+
     }
 
     private void NowDD() //ドラッグ＆ドロップしてる時の処理
     {
-        Vector3 mousePos = Input.mousePosition;
-        Vector2 target = Camera.main.ScreenToWorldPoint(mousePos);
-        var knots = splineContainer.Spline.Knots;
-
-        foreach (var knot in knots)
+        if (!Input.GetMouseButton(0))
         {
-            var worldPos = (Vector2)transform.TransformPoint(knot.Position);
-            //knotのワールド座標をぜんなめ取得
-
+            state = State.A;
+            return; 
         }
 
-        // todo: knotsの編集
+        Vector3 mousePos = Input.mousePosition;
+        Vector2 target = Camera.main.ScreenToWorldPoint(mousePos);
+        var knots = splineContainer.Spline.Knots.ToArray();
+
+        var selectedKnot = knots[selectedKnotIndex];
+        selectedKnot.Position = transform.InverseTransformPoint(target);
+        knots[selectedKnotIndex] = selectedKnot;
+
         splineContainer.Spline.Knots = knots;
 
+        knotursor.transform.position = target;
     }
 }

@@ -47,8 +47,6 @@ public class SplineToLineRenderer : MonoBehaviour
     // スプラインからLineRendererにパスを反映する
     public void Rebuild()
     {
-        Debug.Log("Rebuild");
-
         // テンポラリバッファを確保
         var points = new NativeArray<Vector3>(_segments, Allocator.Temp);
 
