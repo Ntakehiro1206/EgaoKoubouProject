@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using Unity.Mathematics;
 using UnityEngine;
@@ -11,7 +12,10 @@ public class SplineController : MonoBehaviour
         B
     }
 
-    [SerializeField] private SplineContainer splineContainer;
+    public event Action<GameObject> onStarted = (obj) => { };
+    public event Action<GameObject, float3[]> onFinishedDD = (obj, pos) => { };
+
+    [SerializeField] public SplineContainer splineContainer;
     [SerializeField] private float threshold = 0.8f;
     [SerializeField] private GameObject knotursor;
     /// <summary>
@@ -67,6 +71,7 @@ public class SplineController : MonoBehaviour
                 if (isFocus == true && Input.GetMouseButtonDown(0))　//カーソル重なりつつマウスクリックされたとき
                 {
                     state = State.B;
+                    onStarted(gameObject);
                     selectedKnotIndex = i;
                 }
 
@@ -86,6 +91,7 @@ public class SplineController : MonoBehaviour
         if (!Input.GetMouseButton(0))
         {
             state = State.A;
+            onFinishedDD(gameObject, splineContainer.Spline.Knots.Select(value => value.Position).ToArray());
             return; 
         }
 
