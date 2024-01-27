@@ -7,6 +7,7 @@ public class SplineController : MonoBehaviour
 {
     [SerializeField] private SplineContainer splineContainer;
     [SerializeField] private float threshold = 0.8f;
+    [SerializeField] private GameObject knotursor;
 
     // Start is called before the first frame update
     void Start()
@@ -36,10 +37,13 @@ public class SplineController : MonoBehaviour
             if (distance <= threshold)
             {
                 GetComponent<LineRenderer>().material.color = Color.red;
+                knotursor.SetActive(true);
+                knotursor.transform.position = worldPos;
                 break;
             }
             else
             {
+                knotursor.SetActive(false);
                 GetComponent<LineRenderer>().material.color = Color.white;
             }
             Debug.Log(distance);
