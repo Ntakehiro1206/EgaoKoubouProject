@@ -99,7 +99,6 @@ public class SplineController : MonoBehaviour
         {
             state = State.A;
 
-            Debug.Log("マウスボタン放す処理実行");
             // コールバック実行
             CompleteHandler?.Invoke(gameObject, splineContainer.Spline.Knots.Select(value => value.Position).ToArray());
 
