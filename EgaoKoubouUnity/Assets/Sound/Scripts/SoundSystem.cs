@@ -1,28 +1,48 @@
-using _;
 using System.Linq;
 using UnityEngine;
-public class SoundSystem : MonoBehaviour
+
+public interface ISoundSystem
+{
+    void PlayBgm(BgmNameType inType) { }
+    void StopBgm(BgmNameType inType) { }
+    void PlaySfx(SfxNameType inType) { }
+    void StopSfx(SfxNameType inType) { }
+}
+
+public class NullSoundSystem : ISoundSystem
+{
+
+}
+
+
+public class SoundSystem : MonoBehaviour, ISoundSystem
 {
     [SerializeField]
     private SoundDatatable _datatable = default;
     [SerializeField]
     private SoundObject    _soundPrefab = default;
 
-    public static SoundSystem Instance { get; private set; }
+
+    private static NullSoundSystem locNullSystem = new NullSoundSystem();
+    private static SoundSystem _instance = null;
+
+    public static ISoundSystem Instance => HasInstance() ? _instance : locNullSystem;
+    private static bool HasInstance() => _instance != null;
+    public  static void SetInstance(SoundSystem inSystem) { _instance = inSystem; }
 
     private void Awake()
     {
-        if (Instance != null)
+        if (HasInstance())
         {
             Destroy(gameObject);
             return;
         }
-        Instance = this;
+        SetInstance(this);
     }
     private void OnDestroy()
     {
-        if (Instance != this)
-            Instance = null;
+        if (_instance == this)
+            SetInstance(null);
     }
 
     public void PlayBgm(BgmNameType inType)
