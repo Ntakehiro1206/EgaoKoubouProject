@@ -2,6 +2,7 @@ using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Splines;
+using static UnityEngine.GraphicsBuffer;
 
 public class SplineController : MonoBehaviour
 {
@@ -23,22 +24,43 @@ public class SplineController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        BeforeDD();
+
+        //// todo: knotsの編集
+
+        //splineContainer.Spline.Knots = knots;
+    }
+
+    private void BeforeDD() //ドラッグ＆ドロップ前の処理
+    {
         Vector3 mousePos = Input.mousePosition;
         Vector2 target = Camera.main.ScreenToWorldPoint(mousePos);
+        var knots = splineContainer.Spline.Knots;
 
-        foreach (var knot in splineContainer.Spline.Knots)
+        foreach (var knot in knots)
         {
             var worldPos = (Vector2)transform.TransformPoint(knot.Position);
-
             //knotのワールド座標をぜんなめ取得
 
             float distance = Vector2.Distance(worldPos, target);
 
             if (distance <= threshold)
             {
+                bool isFocus = true; //カーソルが重なっているか判定
                 GetComponent<LineRenderer>().material.color = Color.red;
                 knotursor.SetActive(true);
                 knotursor.transform.position = worldPos;
+
+                if (isFocus == true && Input.GetMouseButtonDown(0))　//カーソル重なりつつマウスクリックされたとき
+                {
+                    NowDD();
+                    Debug.Log("NOW DD RUN");
+                }
+                else if (Input.GetMouseButtonUp(0))
+                {
+                    Debug.Log("NOW DD THE END");
+                }
+
                 break;
             }
             else
@@ -46,9 +68,24 @@ public class SplineController : MonoBehaviour
                 knotursor.SetActive(false);
                 GetComponent<LineRenderer>().material.color = Color.white;
             }
-            Debug.Log(distance);
+        }
+    }
+
+    private void NowDD() //ドラッグ＆ドロップしてる時の処理
+    {
+        Vector3 mousePos = Input.mousePosition;
+        Vector2 target = Camera.main.ScreenToWorldPoint(mousePos);
+        var knots = splineContainer.Spline.Knots;
+
+        foreach (var knot in knots)
+        {
+            var worldPos = (Vector2)transform.TransformPoint(knot.Position);
+            //knotのワールド座標をぜんなめ取得
+
         }
 
+        // todo: knotsの編集
+        splineContainer.Spline.Knots = knots;
 
     }
 }
