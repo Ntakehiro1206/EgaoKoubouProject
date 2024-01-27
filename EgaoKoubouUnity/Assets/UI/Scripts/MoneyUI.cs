@@ -1,6 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using Unity.VisualScripting;
+using UnityEditor;
+using UnityEditor.UIElements;
 using UnityEngine;
+using static UnityEditor.Progress;
 
 public class MoneyUI : MonoBehaviour
 {
@@ -9,39 +14,100 @@ public class MoneyUI : MonoBehaviour
     [SerializeField]
     public int AmountMoney;
 
-    public List<MoneyImageUI> moneyList = new List<MoneyImageUI>();
+    private IPatientStatus _status = default;
+    private int _cacheMoney = 0;
+
+    private List<MoneyImageUI> moneyList = new List<MoneyImageUI>();
 
 
     // Start is called before the first frame update
     void Start()
     {
-        InstantiateMoney();
+        // InstantiateMoney();
+        foreach (Transform ts in transform)
+        {
+            moneyList.Add(ts.GetComponent<MoneyImageUI>());
+        }
+        moneyList = moneyList.OrderByDescending(value => value.name).ToList();
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (_status == null)
+            return;
 
-    }
-
-    public void InstantiateMoney()
-    {
-        for (int i = 0; i < AmountMoney; i++)
+        if (_cacheMoney != _status.myCurrentMoney)
         {
-            var money = Instantiate(moneyImagesUI, transform);
-            moneyList.Add(money);
+            _cacheMoney = _status.myCurrentMoney;
+            UseMoney();
         }
 
     }
 
-    public void UseMoney(int money)
+//     private void InstantiateMoney()
+//     {
+//         for (int i = 0; i < AmountMoney; i++)
+//         {
+//             var money = Instantiate(moneyImagesUI, transform);
+//             money.name = $"[{i:D2}]{money.name}";
+//             moneyList.Add(money);
+//         }
+//         moneyList = moneyList.OrderByDescending(value => value.name).ToList();
+// 
+//     }
+
+    public void UseMoney(int money = 0)
     {
-        if (moneyList.Count > 0)
+        foreach (var item in moneyList)
         {
-            var obj = moneyList[0];
-            Destroy(obj.gameObject);
-            moneyList.Remove(obj);
+            if (item.gameObject.activeSelf)
+            {
+                item.gameObject.SetActive(false);
+                SoundSystem.Instance.PlaySfx(SfxNameType.Money2);
+                break;
+            }
         }
     }
+
+    public void SetVisibleAll(bool inVisible)
+    {
+        foreach(var item in moneyList)
+        {
+            item.gameObject.SetActive(inVisible);
+        }
+    }
+
+    public void SetPatientStatus(IPatientStatus inStatus)
+    {
+        SetVisibleAll(false);
+
+        _status = inStatus;
+        _cacheMoney = inStatus.myCurrentMoney;
+        int count = inStatus.myMaxMoney / 10000;
+
+        for ( int i = 0; i < moneyList.Count; i++)
+        {
+            moneyList[i].gameObject.SetActive(i >= count);
+        }
+    }
+
+#if UNITY_EDITOR
+
+    [ContextMenu("Create Item")]
+    private void CreateItem()
+    {
+        moneyList.Clear();
+        for (int i = 0; i < AmountMoney; ++i)
+        {
+            var item = PrefabUtility.InstantiatePrefab(moneyImagesUI, transform) as MoneyImageUI;
+            item.name = $"[{i:D2}]{item.name}";
+            // moneyList.Add(item);
+        }
+
+        // moneyList.Sort((a, b) => Mathf.CeilToInt(a.myAnchoredPostion.y - b.myAnchoredPostion.y));
+    }
+
+#endif
 
 }

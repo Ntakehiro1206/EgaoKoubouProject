@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class CounselingSheetUI : MonoBehaviour
@@ -50,6 +51,18 @@ public class CounselingSheetUI : MonoBehaviour
             var newItem = Instantiate(ui, transform);
             newItem.Check(inCheck);
             _itemList.Add(newItem);
+        }
+    }
+
+    public void SetPatientStatus(IPatientStatus inStatus)
+    {
+        DeletionItem();
+
+        for (int i = 0; i < inStatus.myRequests.Length; ++i)
+        {
+            var newItem = Instantiate(ui, transform);
+            _itemList.Add(newItem);
+            newItem.SetPatientStatus(inStatus.myRequests[i]);
         }
     }
 }
