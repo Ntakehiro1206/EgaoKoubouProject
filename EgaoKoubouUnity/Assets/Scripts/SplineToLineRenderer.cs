@@ -19,18 +19,18 @@ public class SplineToLineRenderer : MonoBehaviour
     private void OnEnable()
     {
         // スプラインの更新時にLineRendererにパスを反映する設定
-        _splineContainer.Spline.changed += Rebuild;
+        Spline.Changed += Rebuild;
 
         // 初期化時は必ず反映
         Rebuild();
     }
 
-    private void OnDisable()
+    void OnDisable()
     {
-        _splineContainer.Spline.changed -= Rebuild;
+        Spline.Changed -= Rebuild;
     }
 
-    private void Update()
+    void Update()
     {
         // ワールド空間での描画の場合、Transformの更新もチェックしておく
         if (_lineRenderer.useWorldSpace && !_isDirty)
@@ -44,8 +44,13 @@ public class SplineToLineRenderer : MonoBehaviour
             Rebuild();
     }
 
+    void Rebuild(Spline spline, int arg2, SplineModification modification)
+    {
+        Rebuild();
+    }
+
     // スプラインからLineRendererにパスを反映する
-    public void Rebuild()
+    void Rebuild()
     {
         // テンポラリバッファを確保
         var points = new NativeArray<Vector3>(_segments, Allocator.Temp);
