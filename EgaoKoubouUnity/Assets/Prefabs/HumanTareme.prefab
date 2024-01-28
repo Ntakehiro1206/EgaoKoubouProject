@@ -542,6 +542,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nose:
+    type: 0
     handle: {fileID: 1774967802559979993}
     BonePosition: {fileID: 1774967802559979993}
     BoneRotation: {fileID: 535018561555281965}
@@ -553,6 +554,7 @@ MonoBehaviour:
     rotationZero: 170.92
     rotationPlus: 143.7
   eyeLeft:
+    type: 1
     handle: {fileID: 3865770317810038159}
     BonePosition: {fileID: 0}
     BoneRotation: {fileID: 1879371650877203403}
@@ -564,6 +566,7 @@ MonoBehaviour:
     rotationZero: -92.39
     rotationPlus: -60
   eyeRight:
+    type: 2
     handle: {fileID: 2757435740071825082}
     BonePosition: {fileID: 0}
     BoneRotation: {fileID: 900761712019161650}
@@ -575,6 +578,7 @@ MonoBehaviour:
     rotationZero: 93.944
     rotationPlus: 60
   eyebrowLeft:
+    type: 3
     handle: {fileID: 6577884940146010755}
     BonePosition: {fileID: 0}
     BoneRotation: {fileID: 742901937001418718}
@@ -586,6 +590,7 @@ MonoBehaviour:
     rotationZero: -100.94
     rotationPlus: -60
   eyebrowRight:
+    type: 4
     handle: {fileID: 3432197576060442541}
     BonePosition: {fileID: 0}
     BoneRotation: {fileID: 7635969468845721178}

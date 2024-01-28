@@ -681,6 +681,7 @@ MonoBehaviour:
   splineContainer: {fileID: 1661249976}
   threshold: 0.8
   knotursor: {fileID: 730507482}
+  projectionScale: 0.1
 --- !u!120 &1661249975
 LineRenderer:
   serializedVersion: 2

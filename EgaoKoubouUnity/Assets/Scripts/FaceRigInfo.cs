@@ -102,6 +102,17 @@ public sealed class FaceRigInfo : MonoBehaviour, IEnumerable<FaceRigInfo?>
     public bool TryGetEyebrowLeft([NotNullWhen(true)] out FaceRigPart? value) => (value = eyebrowLeft) != null;
     public bool TryGetEyebrowRight([NotNullWhen(true)] out FaceRigPart? value) => (value = eyebrowRight) != null;
 
+    public FaceRigPart? this[FacePartType type] => type switch
+    {
+        FacePartType.Nose => nose,
+        FacePartType.EyeLeft => eyeLeft,
+        FacePartType.EyeRight => eyeRight,
+        FacePartType.EyebrowLeft => eyebrowLeft,
+        FacePartType.EyebrowRight => eyebrowRight,
+        FacePartType.Mouth => null,
+        _ => null,
+    };
+
     public System.ReadOnlySpan<FaceRigPart?>.Enumerator GetEnumerator() => Parts.GetEnumerator();
 
     IEnumerator<FaceRigInfo> IEnumerable<FaceRigInfo?>.GetEnumerator()
