@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class ResultGridObject : MonoBehaviour
@@ -27,16 +28,21 @@ public class ResultGridObject : MonoBehaviour
 
     public void SetResult(ResultPatientData[] inResults)
     {
-        int size = _resultGridObjects.Length > inResults.Length ? inResults.Length : _resultGridObjects.Length;
         for (int i = 0; i < _resultGridObjects.Length; i++)
         {
-            
-
-
+            if (i < inResults.Length)
+            {
+                _resultGridObjects[i].SetResult(inResults[i]);
+            }
         }
-
     }
 
+    public List<ResultPatientObject> GetMissingPatients()
+    {
+        return _resultGridObjects.Where(value => value.IsMissing()).ToList();
+    }
+
+    
 
 
     // Update is called once per frame

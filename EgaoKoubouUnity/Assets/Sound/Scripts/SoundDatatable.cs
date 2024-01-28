@@ -24,6 +24,7 @@ public enum SfxNameType
     Write,
     LimitTime,
     NextPage,
+    ResultPop,
 }
 
 

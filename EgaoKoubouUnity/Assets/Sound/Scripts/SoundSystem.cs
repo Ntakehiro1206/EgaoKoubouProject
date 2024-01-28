@@ -38,6 +38,7 @@ public class SoundSystem : MonoBehaviour, ISoundSystem
             return;
         }
         SetInstance(this);
+        DontDestroyOnLoad(gameObject);
     }
     private void OnDestroy()
     {
