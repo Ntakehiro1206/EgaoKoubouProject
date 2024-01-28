@@ -34,11 +34,15 @@ public class SplineController : MonoBehaviour
     /// 選択されたノットのインデックス
     /// </summary>
     private int selectedKnotIndex;
+    private FaceRigInfo face;
 
     // Start is called before the first frame update
     void Start()
     {
-        state = State.A;    
+        state = State.A;
+
+        // 暫定: シーンから有効な FaceRigInfo を1つ取得する
+        face = UnityEngine.Object.FindFirstObjectByType<FaceRigInfo>();
     }
 
     // Update is called once per frame
@@ -59,32 +63,33 @@ public class SplineController : MonoBehaviour
 
     private void BeforeDD() //ドラッグ＆ドロップ前の処理
     {
-        Vector3 mousePos = Input.mousePosition;
-        Vector2 target = Camera.main.ScreenToWorldPoint(mousePos);
+        Vector3 mousePosLocal = Input.mousePosition;
+        Vector2 mousePosWorld = Camera.main.ScreenToWorldPoint(mousePosLocal);
         BezierKnot[] knots = splineContainer.Spline.Knots.ToArray();
+
+        bool isFocus = false;
 
         for (int i = 0; i < knots.Length; i++)
         {
             BezierKnot knot = knots[i];
+
+            //knotsStatusというScriptableObjectがあります
+            if (knotsStatus.list[i].canMove == false)
+            {
+                continue;
+            }
+
             var worldPos = (Vector2)transform.TransformPoint(knot.Position);
             //knotのワールド座標をぜんなめ取得
 
-            float distance = Vector2.Distance(worldPos, target);
+            float distance = Vector2.Distance(worldPos, mousePosWorld);
 
             if (distance <= threshold)
             {
-                //knotsStatusというScriptableObjectがあります
-                if (i == knotsStatus.list[i].knotsNumbur && knotsStatus.list[i].canMove == false)
-                {
-                    return;
-                }
-
-                bool isFocus = true; //カーソルが重なっているか判定
-                GetComponent<LineRenderer>().material.color = Color.red;
-                knotursor.SetActive(true);
+                isFocus = true;
                 knotursor.transform.position = worldPos;
 
-                if (isFocus == true && Input.GetMouseButtonDown(0))　//カーソル重なりつつマウスクリックされたとき
+                if (Input.GetMouseButtonDown(0))　//カーソル重なりつつマウスクリックされたとき
                 {
                     //ドラッグ処理開始時のコールバック
                     OnStartDrag?.Invoke(gameObject);
@@ -95,13 +100,25 @@ public class SplineController : MonoBehaviour
 
                 break; //foreachを抜ける
             }
-            else
+
+            GetComponent<LineRenderer>().material.color = isFocus ? Color.red : Color.white;
+            knotursor.SetActive(isFocus);
+        }
+
+        foreach (var part in face)
+        {
+            if (part == null) continue;
+
+            float dist = Vector2.Distance(mousePosWorld, part.Handle.position);
+            if (dist <= threshold)
             {
-                knotursor.SetActive(false);
-                GetComponent<LineRenderer>().material.color = Color.white;
+                knotursor.transform.position = mousePosWorld;
+                isFocus = true;
+                break;
             }
         }
 
+        knotursor.gameObject.SetActive(isFocus);
     }
 
     public event Action<GameObject, float3[]> CompleteHandler;
