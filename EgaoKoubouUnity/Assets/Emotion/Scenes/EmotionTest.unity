@@ -989,7 +989,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &406010782
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4717,6 +4717,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1345528c828bb344a8469ebe902faf94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  knotsStatus: {fileID: 11400000, guid: bd5b870355ddbdb4d9ced5af7db3444a, type: 2}
   splineContainer: {fileID: 1661249976}
   threshold: 0.8
   knotursor: {fileID: 730507482}
