@@ -17,4 +17,13 @@ public class SceneSwitcher : MonoBehaviour
     {
         SceneManager.LoadScene("Result");
     }
+
+    public void EndGame()     //ゲームを終了する
+    {
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;	//ゲームプレイ終了
+#else
+    Application.Quit();	//ゲームプレイ終了
+#endif
+    }
 }
