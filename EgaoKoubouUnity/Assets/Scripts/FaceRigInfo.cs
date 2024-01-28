@@ -4,9 +4,20 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using UnityEngine;
 
+public enum FacePartType : byte
+{
+    Nose,
+    EyeLeft,
+    EyeRight,
+    EyebrowLeft,
+    EyebrowRight,
+    Mouth,
+}
+
 [System.Serializable]
 public sealed class FaceRigPart
 {
+    [SerializeField] FacePartType type;
     [SerializeField] Transform handle = null!;
     [SerializeField] Transform? BonePosition;
     [SerializeField] Transform? BoneRotation;
@@ -19,6 +30,9 @@ public sealed class FaceRigPart
     [SerializeField] float rotationZero; // z angle
     [SerializeField] float rotationPlus; // z angle
 
+    public float Rate { get; private set; } = 0f;
+
+    public FacePartType Type => type;
     public Transform Handle => handle;
     public Vector2 ControlDirection => Quaternion.Euler(0f, 0f, controlDirection) * Vector2.right;
 
@@ -31,6 +45,8 @@ public sealed class FaceRigPart
 
     public void ApplyTransform(float rate)
     {
+        Rate = rate;
+
         if (BonePosition != null)
         {
             BonePosition.localPosition = CalcPosition(rate);
@@ -41,7 +57,7 @@ public sealed class FaceRigPart
         }
     }
 
-    public Vector2 CalcPosition(float rate)
+    Vector2 CalcPosition(float rate)
     {
         if (rate < -1f || rate > 1f) throw new System.ArgumentOutOfRangeException(nameof(rate));
 
@@ -54,7 +70,7 @@ public sealed class FaceRigPart
         return Vector2.Lerp(positionZero, positionPlus, rate);
     }
 
-    public Quaternion CalcRotation(float rate)
+    Quaternion CalcRotation(float rate)
     {
         if (rate < -1f || rate > 1f) throw new System.ArgumentOutOfRangeException(nameof(rate));
 

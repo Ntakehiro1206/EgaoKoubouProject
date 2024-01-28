@@ -1,3 +1,4 @@
+#nullable enable
 using System;
 using System.Linq;
 using Unity.Mathematics;
@@ -30,11 +31,12 @@ public class SplineController : MonoBehaviour
     /// 状態
     /// </summary>
     private State state;
+    private FacePartType selectedPartType;
     /// <summary>
     /// 選択されたノットのインデックス
     /// </summary>
     private int selectedKnotIndex;
-    private FaceRigInfo face;
+    private FaceRigInfo? face;
 
     // Start is called before the first frame update
     void Start()
@@ -59,7 +61,7 @@ public class SplineController : MonoBehaviour
         }
     }
 
-    public event Action<GameObject> OnStartDrag;
+    public event Action<GameObject>? OnStartDrag;
 
     private void BeforeDD() //ドラッグ＆ドロップ前の処理
     {
@@ -95,6 +97,7 @@ public class SplineController : MonoBehaviour
                     OnStartDrag?.Invoke(gameObject);
 
                     state = State.B;
+                    selectedPartType = FacePartType.Mouth;
                     selectedKnotIndex = i;
                 }
 
@@ -105,23 +108,35 @@ public class SplineController : MonoBehaviour
             knotursor.SetActive(isFocus);
         }
 
-        foreach (var part in face)
+        if (face != null)
         {
-            if (part == null) continue;
-
-            float dist = Vector2.Distance(mousePosWorld, part.Handle.position);
-            if (dist <= threshold)
+            foreach (var part in face)
             {
-                knotursor.transform.position = mousePosWorld;
-                isFocus = true;
-                break;
+                if (part == null) continue;
+
+                float dist = Vector2.Distance(mousePosWorld, part.Handle.position);
+                if (dist <= threshold)
+                {
+                    knotursor.transform.position = mousePosWorld;
+                    isFocus = true;
+
+                    if (Input.GetMouseButtonDown(0)) //カーソル重なりつつマウスクリックされたとき
+                    {
+                        //ドラッグ処理開始時のコールバック
+                        OnStartDrag?.Invoke(gameObject);
+
+                        state = State.B;
+                        selectedPartType = part.Type;
+                    }
+                    break;
+                }
             }
         }
 
         knotursor.gameObject.SetActive(isFocus);
     }
 
-    public event Action<GameObject, float3[]> CompleteHandler;
+    public event Action<GameObject, float3[]>? CompleteHandler;
 
     private void NowDD() //ドラッグ＆ドロップしてる時の処理
     {
@@ -136,15 +151,24 @@ public class SplineController : MonoBehaviour
             return; 
         }
 
-        Vector3 mousePos = Input.mousePosition;
-        Vector2 target = Camera.main.ScreenToWorldPoint(mousePos);
-        var knots = splineContainer.Spline.Knots.ToArray();
+        Vector3 mousePosLocal = Input.mousePosition;
+        Vector2 mousePosWorld = Camera.main.ScreenToWorldPoint(mousePosLocal);
 
-        var selectedKnot = knots[selectedKnotIndex];
-        selectedKnot.Position = transform.InverseTransformPoint(target);
-        knots[selectedKnotIndex] = selectedKnot;
+        if (selectedPartType == FacePartType.Mouth)
+        {
+            // 口パーツの操作
+            var knots = splineContainer.Spline.Knots.ToArray();
 
-        splineContainer.Spline.Knots = knots;
-        knotursor.transform.position = target;
+            var selectedKnot = knots[selectedKnotIndex];
+            selectedKnot.Position = transform.InverseTransformPoint(mousePosWorld);
+            knots[selectedKnotIndex] = selectedKnot;
+
+            splineContainer.Spline.Knots = knots;
+            knotursor.transform.position = mousePosWorld;
+        }
+        else
+        {
+            // todo: リグの操作
+        }
     }
 }
