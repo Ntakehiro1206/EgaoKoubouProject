@@ -1,4 +1,6 @@
 #nullable enable
+using System.Collections;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using UnityEngine;
 
@@ -66,7 +68,7 @@ public sealed class FaceRigPart
     }
 }
 
-public sealed class FaceRigInfo : MonoBehaviour
+public sealed class FaceRigInfo : MonoBehaviour, IEnumerable<FaceRigInfo?>
 {
     [SerializeField] FaceRigPart? nose;
     [SerializeField] FaceRigPart? eyeLeft;
@@ -74,11 +76,23 @@ public sealed class FaceRigInfo : MonoBehaviour
     [SerializeField] FaceRigPart? eyebrowLeft;
     [SerializeField] FaceRigPart? eyebrowRight;
 
+    FaceRigPart?[]? parts;
+
+    public System.ReadOnlySpan<FaceRigPart?> Parts => parts ??= new[] { nose, eyeLeft, eyeRight, eyebrowLeft, eyebrowRight };
+
     public bool TryGetNose([NotNullWhen(true)] out FaceRigPart? value) => (value = nose) != null;
     public bool TryGetEyeLeft([NotNullWhen(true)] out FaceRigPart? value) => (value = eyeLeft) != null;
     public bool TryGetEyeRight([NotNullWhen(true)] out FaceRigPart? value) => (value = eyeRight) != null;
     public bool TryGetEyebrowLeft([NotNullWhen(true)] out FaceRigPart? value) => (value = eyebrowLeft) != null;
     public bool TryGetEyebrowRight([NotNullWhen(true)] out FaceRigPart? value) => (value = eyebrowRight) != null;
+
+    public System.ReadOnlySpan<FaceRigPart?>.Enumerator GetEnumerator() => Parts.GetEnumerator();
+
+    IEnumerator<FaceRigInfo> IEnumerable<FaceRigInfo?>.GetEnumerator()
+        => throw new System.NotImplementedException();
+
+    IEnumerator IEnumerable.GetEnumerator()
+        => throw new System.NotImplementedException();
 
 #if UNITY_EDITOR
     [SerializeField, Range(-1f, 1f)] float noseRate = 0f;
