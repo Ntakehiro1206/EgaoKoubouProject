@@ -1,13 +1,16 @@
-using JetBrains.Annotations;
+using System;
 using System.Linq;
 using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.Splines;
-using UnityEngine.Events;
-using System;
 
 public class SplineController : MonoBehaviour
 {
+    [SerializeField]
+    private KnotsStatusScriptableObject knotsStatus;
+    int knotsNumber;
+    bool canMove;
+
     enum State //enum = 列挙子
     {
         A,
@@ -70,6 +73,12 @@ public class SplineController : MonoBehaviour
 
             if (distance <= threshold)
             {
+                //knotsStatusというScriptableObjectがあります
+                if (i == knotsStatus.list[i].knotsNumbur && knotsStatus.list[i].canMove == false)
+                {
+                    return;
+                }
+
                 bool isFocus = true; //カーソルが重なっているか判定
                 GetComponent<LineRenderer>().material.color = Color.red;
                 knotursor.SetActive(true);
@@ -78,7 +87,6 @@ public class SplineController : MonoBehaviour
                 if (isFocus == true && Input.GetMouseButtonDown(0))　//カーソル重なりつつマウスクリックされたとき
                 {
                     //ドラッグ処理開始時のコールバック
-                    Debug.Log("ドラッグ処理スタート");
                     OnStartDrag?.Invoke(gameObject);
 
                     state = State.B;
