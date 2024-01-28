@@ -27,6 +27,7 @@ public class SplineController : MonoBehaviour
     [SerializeField] private SplineContainer splineContainer;
     [SerializeField] private float threshold = 0.8f;
     [SerializeField] private GameObject knotursor;
+    [SerializeField] private float projectionScale = 0.1f;
     /// <summary>
     /// 状態
     /// </summary>
@@ -36,6 +37,7 @@ public class SplineController : MonoBehaviour
     /// 選択されたノットのインデックス
     /// </summary>
     private int selectedKnotIndex;
+    private Vector2 dragStartPoint;
     private FaceRigInfo? face;
 
     // Start is called before the first frame update
@@ -99,6 +101,7 @@ public class SplineController : MonoBehaviour
                     state = State.B;
                     selectedPartType = FacePartType.Mouth;
                     selectedKnotIndex = i;
+                    dragStartPoint = worldPos;
                 }
 
                 break; //foreachを抜ける
@@ -127,6 +130,7 @@ public class SplineController : MonoBehaviour
 
                         state = State.B;
                         selectedPartType = part.Type;
+                        dragStartPoint = mousePosWorld;
                     }
                     break;
                 }
@@ -168,7 +172,27 @@ public class SplineController : MonoBehaviour
         }
         else
         {
-            // todo: リグの操作
+            // リグの操作
+            var part = face?[selectedPartType];
+            if (part == null)
+            {
+                Debug.LogWarning("パーツが見つからない");
+                state = State.A;
+                return;
+            }
+
+            Vector2 vector = mousePosWorld - dragStartPoint;
+            float length = vector.magnitude;
+            if (length < Mathf.Epsilon) return;
+
+            Vector2 direction = vector.normalized;
+            float projection = Vector2.Dot(vector, part.ControlDirection) * length;
+
+            float rate = Mathf.Clamp(projection * projectionScale, -1f, 1f);
+            part.ApplyTransform(rate);
+
+            // ハンドル表示
+            knotursor.transform.position = part.Handle.position;
         }
     }
 }
