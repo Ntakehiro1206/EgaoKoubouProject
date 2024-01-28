@@ -60,15 +60,18 @@ MonoBehaviour:
   - _material: {fileID: 0}
     _positions: []
   _mouseList:
-  - _positions:
+  - _mouseType: 0
+    _positions:
     - {x: -0.1691755, y: 0.1850002}
     - {x: 1.036824, y: 0.00628376}
     - {x: 2.310824, y: 0.1550002}
-  - _positions:
+  - _mouseType: 2
+    _positions:
     - {x: -0.1691755, y: 0.1850002}
     - {x: 1.036824, y: 0.43}
     - {x: 2.310824, y: 0.1550002}
-  - _positions:
+  - _mouseType: 1
+    _positions:
     - {x: -0.89, y: 0.1850002}
     - {x: 1.036824, y: 0.1}
     - {x: 3.19, y: 0.1550002}
@@ -92,27 +95,241 @@ MonoBehaviour:
   - _type: 6
     _name: hair
   _surgeryList:
-  - _comment: "\u4E0D\u6A5F\u5ACC\u306B\u898B\u3089\u308C\u308B"
+  - _comment: "\u4E0D\u6A5F\u5ACC\u306B\u898B\u3089\u308C\u3084\u3059\u3044"
     _facePartType: 5
     _angles:
     - 50
     - 70
-  - _comment: "\u30D8\u30E9\u30D8\u30E9\u3057\u3066\u306A\u3044"
+  - _comment: "\u30D8\u30E9\u30D8\u30E9\u3059\u308B\u306A\u3063\u3066\u3088\u304F\u8A00\u308F\u308C\u308B"
     _facePartType: 5
     _angles:
-    - 100
-    - 130
+    - 90
+    - 150
+  - _comment: "\u7D20\u6575\u306A\u7B11\u9854\u304C\u3057\u305F\u3044"
+    _facePartType: 5
+    _angles:
+    - 22.5
+    - 45
+  - _comment: "\u666E\u901A\u306A\u53E3\u306B\u3057\u3066\u6B32\u3057\u3044"
+    _facePartType: 5
+    _angles:
+    - 88
+    - 92
+  - _comment: "\u76EE\u529B\u304C\u6B32\u3057\u3044\uFF08\u53F3\uFF09"
+    _facePartType: 1
+    _angles:
+    - 88
+    - 92
+  - _comment: "\u76EE\u529B\u304C\u6B32\u3057\u3044\uFF08\u5DE6\uFF09"
+    _facePartType: 0
+    _angles:
+    - 88
+    - 92
+  - _comment: "\u76EE\u304C\u6016\u3044\u3063\u3066\u8A00\u308F\u308C\u308B\uFF08\u53F3\uFF09"
+    _facePartType: 1
+    _angles:
+    - 88
+    - 92
+  - _comment: "\u76EE\u304C\u6016\u3044\u3063\u3066\u8A00\u308F\u308C\u308B\uFF08\u5DE6\uFF09"
+    _facePartType: 0
+    _angles:
+    - 88
+    - 92
+  - _comment: "\u666E\u901A\u306E\u76EE\u304C\u3044\u3044\uFF08\u53F3\uFF09"
+    _facePartType: 1
+    _angles:
+    - 88
+    - 92
+  - _comment: "\u666E\u901A\u306E\u76EE\u304C\u3044\u3044\uFF08\u5DE6\uFF09"
+    _facePartType: 1
+    _angles:
+    - 88
+    - 92
+  - _comment: "\u9F3B\u3092\u9AD8\u304F\u3057\u3066\u6B32\u3057\u3044"
+    _facePartType: 4
+    _angles:
+    - 88
+    - 92
+  - _comment: "\u9F3B\u304C\u76EE\u7ACB\u3064\u306E\u304C\u60A9\u307F"
+    _facePartType: 4
+    _angles:
+    - 88
+    - 92
+  - _comment: "\u30AD\u30EA\u3063\u3068\u3057\u305F\u5370\u8C61\u3092\u4E0E\u3048\u305F\u3044\uFF08\u53F3\uFF09"
+    _facePartType: 3
+    _angles:
+    - 88
+    - 92
+  - _comment: "\u30AD\u30EA\u3063\u3068\u3057\u305F\u5370\u8C61\u3092\u4E0E\u3048\u305F\u3044\uFF08\u5DE6\uFF09"
+    _facePartType: 2
+    _angles:
+    - 88
+    - 92
+  - _comment: "\u7A4F\u3084\u304B\u306A\u5370\u8C61\u3092\u4E0E\u3048\u305F\u3044\uFF08\u53F3\uFF09"
+    _facePartType: 3
+    _angles:
+    - 88
+    - 92
+  - _comment: "\u7A4F\u3084\u304B\u306A\u5370\u8C61\u3092\u4E0E\u3048\u305F\u3044\uFF08\u5DE6\uFF09"
+    _facePartType: 3
+    _angles:
+    - 88
+    - 92
+  - _comment: "\u7A4F\u3084\u304B\u306A\u5370\u8C61\u3092\u4E0E\u3048\u305F\u3044\uFF08\u5DE6\uFF09"
+    _facePartType: 3
+    _angles:
+    - 88
+    - 92
+  - _comment: "\u306B\u3083\u30FC"
+    _facePartType: 0
+    _angles:
+    - 88
+    - 92
+  - _comment: "\u306B\u3083\uFF5E\u306B\u3083\uFF5E"
+    _facePartType: 1
+    _angles:
+    - 88
+    - 92
+  - _comment: "\u307F\u3083\u30FC"
+    _facePartType: 4
+    _angles:
+    - 88
+    - 92
+  - _comment: "\u60AA\u3044\u76EE\u3064\u304D\u306B\u61A7\u308C\u308B\uFF08\u53F3\uFF09"
+    _facePartType: 1
+    _angles:
+    - 88
+    - 92
+  - _comment: "\u60AA\u3044\u76EE\u3064\u304D\u306B\u61A7\u308C\u308B\uFF08\u5DE6\uFF09"
+    _facePartType: 0
+    _angles:
+    - 88
+    - 92
   _surgeryGroupList:
   - _surgerIndexList: 00000000
-    _difficulty: 
-    _money: 100000
+    _difficulty: 03000000
+    _money: 50000
+    _mouseType: 2
     _specifyEye: 0
     _specifyEyebrow: 0
     _eyeType: 0
     _eyebrowType: 0
   - _surgerIndexList: 01000000
-    _difficulty: 
+    _difficulty: 05000000
     _money: 70000
+    _mouseType: 0
+    _specifyEye: 0
+    _specifyEyebrow: 0
+    _eyeType: 0
+    _eyebrowType: 0
+  - _surgerIndexList: 02000000
+    _difficulty: 0300000007000000
+    _money: 70000
+    _mouseType: 1
+    _specifyEye: 0
+    _specifyEyebrow: 0
+    _eyeType: 0
+    _eyebrowType: 0
+  - _surgerIndexList: 03000000
+    _difficulty: 0a0000000c000000
+    _money: 70000
+    _mouseType: 2
+    _specifyEye: 0
+    _specifyEyebrow: 0
+    _eyeType: 0
+    _eyebrowType: 0
+  - _surgerIndexList: 0400000005000000
+    _difficulty: 050000000a000000
+    _money: 70000
+    _mouseType: 2
+    _specifyEye: 0
+    _specifyEyebrow: 0
+    _eyeType: 0
+    _eyebrowType: 0
+  - _surgerIndexList: 0600000007000000
+    _difficulty: 0500000008000000
+    _money: 70000
+    _mouseType: 0
+    _specifyEye: 0
+    _specifyEyebrow: 0
+    _eyeType: 0
+    _eyebrowType: 0
+  - _surgerIndexList: 0800000009000000
+    _difficulty: 090000000c000000
+    _money: 70000
+    _mouseType: 1
+    _specifyEye: 0
+    _specifyEyebrow: 0
+    _eyeType: 0
+    _eyebrowType: 0
+  - _surgerIndexList: 0a000000
+    _difficulty: 0300000008000000
+    _money: 70000
+    _mouseType: 0
+    _specifyEye: 0
+    _specifyEyebrow: 0
+    _eyeType: 0
+    _eyebrowType: 0
+  - _surgerIndexList: 0b000000
+    _difficulty: 0300000008000000
+    _money: 70000
+    _mouseType: 1
+    _specifyEye: 0
+    _specifyEyebrow: 0
+    _eyeType: 0
+    _eyebrowType: 0
+  - _surgerIndexList: 0400000007000000
+    _difficulty: 080000000d000000
+    _money: 70000
+    _mouseType: 0
+    _specifyEye: 0
+    _specifyEyebrow: 0
+    _eyeType: 0
+    _eyebrowType: 0
+  - _surgerIndexList: 0500000006000000
+    _difficulty: 080000000d000000
+    _money: 70000
+    _mouseType: 2
+    _specifyEye: 0
+    _specifyEyebrow: 0
+    _eyeType: 0
+    _eyebrowType: 0
+  - _surgerIndexList: 0c0000000d000000
+    _difficulty: 0500000009000000
+    _money: 70000
+    _mouseType: 1
+    _specifyEye: 0
+    _specifyEyebrow: 0
+    _eyeType: 0
+    _eyebrowType: 0
+  - _surgerIndexList: 0e0000000f000000
+    _difficulty: 0500000009000000
+    _money: 70000
+    _mouseType: 1
+    _specifyEye: 0
+    _specifyEyebrow: 0
+    _eyeType: 0
+    _eyebrowType: 0
+  - _surgerIndexList: 100000001100000012000000
+    _difficulty: 0a0000000a000000
+    _money: 70000
+    _mouseType: 1
+    _specifyEye: 0
+    _specifyEyebrow: 0
+    _eyeType: 0
+    _eyebrowType: 0
+  - _surgerIndexList: 100000001100000012000000
+    _difficulty: 0f0000000f000000
+    _money: 70000
+    _mouseType: 1
+    _specifyEye: 0
+    _specifyEyebrow: 0
+    _eyeType: 0
+    _eyebrowType: 0
+  - _surgerIndexList: 100000001100000012000000
+    _difficulty: 1400000014000000
+    _money: 70000
+    _mouseType: 1
     _specifyEye: 0
     _specifyEyebrow: 0
     _eyeType: 0
