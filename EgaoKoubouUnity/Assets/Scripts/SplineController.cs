@@ -1,10 +1,8 @@
-using JetBrains.Annotations;
+using System;
 using System.Linq;
 using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.Splines;
-using UnityEngine.Events;
-using System;
 
 public class SplineController : MonoBehaviour
 {
@@ -89,7 +87,6 @@ public class SplineController : MonoBehaviour
                 if (isFocus == true && Input.GetMouseButtonDown(0))　//カーソル重なりつつマウスクリックされたとき
                 {
                     //ドラッグ処理開始時のコールバック
-                    Debug.Log("ドラッグ処理スタート");
                     OnStartDrag?.Invoke(gameObject);
 
                     state = State.B;
