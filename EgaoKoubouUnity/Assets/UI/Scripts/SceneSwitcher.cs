@@ -5,7 +5,7 @@ public class SceneSwitcher : MonoBehaviour
 {
     public void GoToMain()	//ゲームシーンに切り替える
     {
-        SceneManager.LoadScene("Main");
+        SceneManager.LoadScene("EmotionTest");
     }
 
     public void GoToTitle()	//タイトルシーンに切り替える
