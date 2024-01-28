@@ -107,6 +107,8 @@ public class EmotionTestScene : MonoBehaviour
             yield return GameProcess();
             yield return PostGameProcess();
         }
+
+
     }
 
     IEnumerator PostProcess()
@@ -134,7 +136,7 @@ public class EmotionTestScene : MonoBehaviour
     IEnumerator GameProcess()
     {
         float startTime = Time.time;
-        while (_currentStatus.myCurrentMoney > 0 && _currentStatus.myRequests.Any(value => !value.myResult))
+        while (_currentStatus.myCurrentMoney > 0 && _currentStatus.myRequests.Any(value => !value.myResult) && _startTime + _gameplayTime > Time.time)
         {
             yield return null;
         }
