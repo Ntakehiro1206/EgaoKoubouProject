@@ -9,6 +9,7 @@ using UnityEngine;
 namespace Face
 {
     public enum EyeType { Upswept, Droopy }
+    public enum MouseType {Smile , Normal , Angry }
     public enum PartType { EyeL, EyeR, EyebrowL, EyebrowR, Nose, Mouse, Hair }
 
 
@@ -37,6 +38,7 @@ namespace Face
     [System.Serializable]
     public class MouseData
     {
+        public MouseType _mouseType = default;
         public Vector2[]  _positions = default;
     }
     [System.Serializable]
@@ -71,6 +73,7 @@ namespace Cosmetic
         public int[] _surgerIndexList = default;
         public int[] _difficulty      = default;
         public int   _money           = 0;
+        public MouseType _mouseType = default;
 
         public bool _specifyEye;
         public bool _specifyEyebrow;
@@ -144,11 +147,13 @@ public class FaceDatatable : ScriptableObject
         EyeData[] eyebrowList = _eyebrowList;
         if (inSurgery._specifyEyebrow)
             eyebrowList = eyebrowList.Where(value => value._eyeType == inSurgery._eyebrowType).ToArray();
+        MouseData[] mouseList = _mouseList;
+            mouseList = mouseList.Where(value => value._mouseType == inSurgery._mouseType).ToArray();
 
         resultFace._eye     = eyeList[0];
         resultFace._eyebrow = eyebrowList[0];
         resultFace._nose    = _noseList[0];
-        resultFace._mouse   = _mouseList[0];
+        resultFace._mouse   = mouseList[0];
         resultFace._hair    = _hairList[0];
 
         if (eyeList.Length > 0)
@@ -157,8 +162,8 @@ public class FaceDatatable : ScriptableObject
             resultFace._eyebrow = eyebrowList[Random.Range(0, eyebrowList.Length)];
         if (_noseList.Length > 0)
             resultFace._nose = _noseList[Random.Range(0, _noseList.Length)];
-        if (_mouseList.Length > 0)
-            resultFace._mouse = _mouseList[Random.Range(0, _mouseList.Length)];
+        if (mouseList.Length > 0)
+            resultFace._mouse = mouseList[Random.Range(0, mouseList.Length)];
         if (_hairList.Length > 0)
             resultFace._hair = _hairList[Random.Range(0, _hairList.Length)];
 
