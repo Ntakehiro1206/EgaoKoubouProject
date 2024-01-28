@@ -497,7 +497,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _faceDatatable: {fileID: 11400000, guid: a6087d83889d58448befc9ba440d50f8, type: 2}
   _gameplayTime: 60
-  _nextScene: EmotionTest
+  _nextScene: Result
+  _mainCamera: {fileID: 519420031}
+  _resultColors:
+  - {r: 0, g: 0.99077415, b: 1, a: 1}
+  - {r: 1, g: 0, b: 0.906075, a: 1}
+  _textures: []
 --- !u!4 &170993374
 Transform:
   m_ObjectHideFlags: 0
@@ -1803,7 +1808,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_BackGroundColor: {r: 0.9607843, g: 1, b: 0.9254902, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0

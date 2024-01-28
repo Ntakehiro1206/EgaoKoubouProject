@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Experimental.Rendering;
 using UnityEngine.SceneManagement;
 
 public interface IEmotionManager
@@ -67,6 +68,12 @@ public class EmotionTestScene : MonoBehaviour
     private float         _gameplayTime  = 60.0f;
     [SerializeField]
     private string        _nextScene = "";
+    [SerializeField]
+    private Camera _mainCamera = null;
+    [SerializeField]
+    private Color[] _resultColors = null;
+    [SerializeField]
+    private List<RenderTexture> _textures = new List<RenderTexture>();
 
     private int m_patientIndex = 0;
     private float _startTime = 0.0f;
@@ -92,7 +99,7 @@ public class EmotionTestScene : MonoBehaviour
 
     IEnumerator PreProcess()
     {
-
+        ResultStaticData.Reset();
         GameMainUIManager.Instance.SetMainVisible(false);
 
         SoundSystem.Instance.PlayBgm(BgmNameType.Gameplay);
@@ -143,8 +150,21 @@ public class EmotionTestScene : MonoBehaviour
     }
     IEnumerator PostGameProcess()
     {
-        
-        if (!_currentStatus.myRequests.Any(value => !value.myResult))
+
+        bool result = !_currentStatus.myRequests.Any(value => !value.myResult);
+
+        Color color = _mainCamera.backgroundColor;
+        _mainCamera.backgroundColor = result ? _resultColors[0] : _resultColors[1];
+
+        var renderTexture = new RenderTexture(1920 / 4, 1080 / 4, 0);
+        _mainCamera.targetTexture = renderTexture;
+        yield return null;
+        _mainCamera.targetTexture = null;
+        _mainCamera.backgroundColor = color;
+        ResultStaticData.Add(result, renderTexture);
+        _textures.Add(renderTexture);
+
+        if (result)
         {
             SoundSystem.Instance.PlaySfx(SfxNameType.Clear2);
         }
