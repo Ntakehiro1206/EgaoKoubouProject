@@ -1,9 +1,11 @@
+using Cosmetic;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using Unity.Mathematics;
 using Unity.VisualScripting;
+using UnityEditor.PackageManager.Requests;
 using UnityEditor.Rendering;
 using UnityEngine;
 using UnityEngine.Splines;
@@ -19,10 +21,20 @@ public class EmotionManager : MonoBehaviour, IEmotionManager
     private FaceDatatable _datatable = null;
     [SerializeField]
     private int _money = 10000;
+    //[SerializeField]
+    //private SurgeryData _surgeryData = null;
+    [SerializeField]
+    private FaceRigInfo _riginfo = null;
 
     private PatientStatus _patientStatus;
 
     private List<FaceData> _faces = new List<FaceData>();
+
+    private Cosmetic.SurgeryData[] _surgeryData = null;
+
+    private PatientRequestStatus[] _requests = null;
+
+
 
     private void Awake()
     {
@@ -45,7 +57,61 @@ public class EmotionManager : MonoBehaviour, IEmotionManager
 
     void Update()
     {
+        if (!Input.GetMouseButtonDown(0))
+        {
+            return;
+        }
 
+        if (_requests != null)
+        {
+            foreach (var request in _requests)
+            {
+                var s = request.mySource;
+                var partType = request.mySource._facePartType;
+                FaceRigPart? rigPart = null;
+                bool resultTryGet = false;
+
+                switch (partType)
+                {
+                    case Face.PartType.EyeL:
+                        resultTryGet = _riginfo.TryGetEyeLeft(out rigPart);
+                        break;
+                    case Face.PartType.EyeR:
+                        resultTryGet = _riginfo.TryGetEyeRight(out rigPart);
+                        break;
+                    case Face.PartType.EyebrowL:
+                        resultTryGet = _riginfo.TryGetEyebrowLeft(out rigPart);
+                        break;
+                    case Face.PartType.EyebrowR:
+                        resultTryGet = _riginfo.TryGetEyebrowRight(out rigPart);
+                        break;
+                    case Face.PartType.Nose:
+                        resultTryGet = _riginfo.TryGetNose(out rigPart);
+                        break;
+                }
+
+                if(resultTryGet && rigPart   != null)
+                {
+                    if (s._angles[0] < rigPart.Rate && rigPart.Rate < s._angles[1])
+                    {
+                        request.myResult = true;
+                    }
+                }
+                
+            }
+
+            
+        }
+    }
+
+    void SetCosmeticSurgeryData(Cosmetic.SurgeryData[] surgeryData)
+    {
+        _surgeryData = surgeryData;
+    }
+
+    public void SetPatientRequestStatus(PatientRequestStatus[] requests)
+    {
+        _requests = requests;
     }
 
     private void OnChangedFace(GameObject inObj, float3[] inPositions)

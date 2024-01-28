@@ -132,9 +132,13 @@ public class EmotionTestScene : MonoBehaviour
     {
         var surgerys = _faceDatatable.GetSurgeryGroupData(m_patientIndex);
         var patient  = _faceDatatable.GetPatientData(surgerys);
+
+
         _patient.Set(patient);
 
         SettingPlayData(surgerys, patient);
+        _emotion.SetPatientRequestStatus(_currentStatus._requests);
+
 
         _patient.SetVisible(true);
         yield return _patient.In();
