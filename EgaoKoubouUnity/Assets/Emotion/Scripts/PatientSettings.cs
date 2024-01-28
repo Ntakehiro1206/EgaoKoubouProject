@@ -62,15 +62,15 @@ public class PatientSettings : MonoBehaviour
                 map.Add(render.name, render);
             }
 
-            map["faceOutline"].sharedMaterial = inData._basic._faceBG;
-            // map["body"].sharedMaterial = null;
-            map["eye_L1"].sharedMaterial = inData._face._eye._left._material;
-            map["eye_R1"].sharedMaterial = inData._face._eye._right._material;
-            map["eyebrow_L1"].sharedMaterial = inData._face._eyebrow._left._material;
-            map["eyebrow_R1"].sharedMaterial = inData._face._eyebrow._right._material;
+//             map["faceOutline"].sharedMaterial = inData._basic._faceBG;
+//             // map["body"].sharedMaterial = null;
+//             map["eye_L1"].sharedMaterial = inData._face._eye._left._material;
+//             map["eye_R1"].sharedMaterial = inData._face._eye._right._material;
+//             map["eyebrow_L1"].sharedMaterial = inData._face._eyebrow._left._material;
+//             map["eyebrow_R1"].sharedMaterial = inData._face._eyebrow._right._material;
             //map["mouth"].sharedMaterial = inData._face._mouse.;
             // map["nose"].sharedMaterial = null;
-            map["hair"].sharedMaterial = inData._face._hair._material;
+            //map["hair"].sharedMaterial = inData._face._hair._material;
         }
 
         {
